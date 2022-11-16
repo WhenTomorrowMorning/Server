@@ -7,22 +7,23 @@ import javax.persistence.Table;
 
 import com.y2sg.wtm.domain.common.BaseEntity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Table(name="token")
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="token")
 public class Token extends BaseEntity {
 
     @Id
-    @Column(name = "user_email", length = 1024 , nullable = false)
+    @Column(name = "user_email", nullable = false)
     private String userEmail;
 
-    @Column(name = "refresh_token", length = 1024 , nullable = false)
+    @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
-
-    public Token(){}
 
     public Token updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
