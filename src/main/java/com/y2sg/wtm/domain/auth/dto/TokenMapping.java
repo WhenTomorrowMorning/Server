@@ -9,8 +9,6 @@ public class TokenMapping {
     private String accessToken;
     private String refreshToken;
 
-    public TokenMapping(){}
-
     @Builder
     public TokenMapping(String userEmail, String accessToken, String refreshToken){
         this.userEmail = userEmail;
