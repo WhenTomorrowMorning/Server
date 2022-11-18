@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "Users")
 public class User extends BaseEntity {
 
     @Id
@@ -69,8 +68,8 @@ public class User extends BaseEntity {
         this.address = address;
     }
 
-    public void updateName(String name){
-        this.name = name;
+    public void updateNickName(String nickname){
+        this.nickname = nickname;
     }
 
     public void updateImageUrl(String imageUrl){

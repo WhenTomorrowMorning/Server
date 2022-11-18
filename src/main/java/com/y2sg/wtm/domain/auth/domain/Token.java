@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="token")
 public class Token extends BaseEntity {
 
     @Id
