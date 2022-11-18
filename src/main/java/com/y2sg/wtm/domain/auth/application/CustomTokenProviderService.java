@@ -29,7 +29,7 @@ public class CustomTokenProviderService {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    public TokenMapping refreshToken(Authentication authentication, String refreshToken) {
+    public TokenMapping refreshToken(final Authentication authentication, final String refreshToken) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Date now = new Date();
 
@@ -53,7 +53,7 @@ public class CustomTokenProviderService {
                         .build();
     }
 
-    public TokenMapping createToken(Authentication authentication) {
+    public TokenMapping createToken(final Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
@@ -85,7 +85,7 @@ public class CustomTokenProviderService {
                     .build();
     }
 
-    public Long getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(final String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(oAuth2Config.getAuth().getTokenSecret())
                 .build()
@@ -95,20 +95,20 @@ public class CustomTokenProviderService {
         return Long.parseLong(claims.getSubject());
     }
 
-    public UsernamePasswordAuthenticationToken getAuthenticationById(String token){
+    public UsernamePasswordAuthenticationToken getAuthenticationById(final String token){
         Long userId = getUserIdFromToken(token);
         UserDetails userDetails = customUserDetailsService.loadUserById(userId);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         return authentication;
     }
 
-    public UsernamePasswordAuthenticationToken getAuthenticationByEmail(String email){
+    public UsernamePasswordAuthenticationToken getAuthenticationByEmail(final String email){
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         return authentication;
     }
 
-    public Long getExpiration(String token) {
+    public Long getExpiration(final String token) {
         // accessToken 남은 유효시간
         Date expiration = Jwts.parserBuilder().setSigningKey(oAuth2Config.getAuth().getTokenSecret()).build().parseClaimsJws(token).getBody().getExpiration();
         // 현재 시간
@@ -117,7 +117,7 @@ public class CustomTokenProviderService {
         return (expiration.getTime() - now);
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(final String token) {
         try {
             //log.info("bearerToken = {} \n oAuth2Config.getAuth()={}", token, oAuth2Config.getAuth().getTokenSecret());
             Jwts.parserBuilder().setSigningKey(oAuth2Config.getAuth().getTokenSecret()).build().parseClaimsJws(token);

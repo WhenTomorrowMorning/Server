@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     }
 
     @Transactional
-    public UserDetails loadUserById(Long id) {
+    public UserDetails loadUserById(final Long id) {
         Optional<User> user = userRepository.findById(id);
         DefaultAssert.isOptionalPresent(user);
 
