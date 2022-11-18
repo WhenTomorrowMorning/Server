@@ -45,7 +45,7 @@ public class AuthController {
     })
     @GetMapping(value = "")
     public ResponseEntity<?> whoAmI(
-        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser final UserPrincipal userPrincipal
     ) {
         return authService.whoAmI(userPrincipal);
     }
@@ -57,7 +57,7 @@ public class AuthController {
     })
     @DeleteMapping(value = "")
     public ResponseEntity<?> delete(
-        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser final UserPrincipal userPrincipal
     ){
         return authService.delete(userPrincipal);
     }
@@ -69,7 +69,7 @@ public class AuthController {
     })
     @PostMapping(value = "/refresh")
     public ResponseEntity<?> refresh(
-        @Parameter(description = "Schemas의 RefreshTokenRequest를 참고해주세요.", required = true) @Valid @RequestBody RefreshTokenReq tokenRefreshRequest
+        @Parameter(description = "Schemas의 RefreshTokenRequest를 참고해주세요.", required = true) @Valid @RequestBody final RefreshTokenReq tokenRefreshRequest
     ) {
         return authService.refresh(tokenRefreshRequest);
     }
@@ -82,8 +82,8 @@ public class AuthController {
     })
     @PostMapping(value="/signout")
     public ResponseEntity<?> signOut(
-        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal, 
-        @Parameter(description = "Schemas의 RefreshTokenRequest를 참고해주세요.", required = true) @Valid @RequestBody RefreshTokenReq tokenRefreshRequest
+        @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser final UserPrincipal userPrincipal,
+        @Parameter(description = "Schemas의 RefreshTokenRequest를 참고해주세요.", required = true) @Valid @RequestBody final RefreshTokenReq tokenRefreshRequest
     ) {
         return authService.signOut(tokenRefreshRequest);
     }
