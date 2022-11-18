@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
 
-    public ResponseEntity<?> readByUser(UserPrincipal userPrincipal){
+    public ResponseEntity<?> readByUser(final UserPrincipal userPrincipal){
         Optional<User> user = userRepository.findById(userPrincipal.getId());
         DefaultAssert.isOptionalPresent(user);
         ApiResponse apiResponse = ApiResponse.builder().check(true).information(user.get()).build();
