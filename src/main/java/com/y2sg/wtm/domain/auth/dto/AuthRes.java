@@ -16,8 +16,6 @@ public class AuthRes {
     @Schema( type = "string", example ="Bearer", description="권한(Authorization) 값 해더의 명칭을 지정합니다.")
     private String tokenType = "Bearer";
 
-    public AuthRes(){};
-
     @Builder
     public AuthRes(String accessToken, String refreshToken) {
         this.accessToken = accessToken;

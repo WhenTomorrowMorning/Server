@@ -38,7 +38,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
+    @Operation(summary = "유저 정보 확인", description = "현재 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "유저 확인 성공", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class) ) } ),
         @ApiResponse(responseCode = "400", description = "유저 확인 실패", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class) ) } ),
