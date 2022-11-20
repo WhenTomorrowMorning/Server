@@ -32,12 +32,14 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final CustomTokenProviderService customTokenProviderService;
-    
+
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    
 
-    public ResponseEntity<?> whoAmI(final UserPrincipal userPrincipal){
+
+
+    public ResponseEntity<?> whoAmI(final UserPrincipal userPrincipal) {
+
         Optional<User> user = userRepository.findById(userPrincipal.getId());
         DefaultAssert.isOptionalPresent(user);
         ApiResponse apiResponse = ApiResponse.builder().check(true).information(user.get()).build();
@@ -45,7 +47,9 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
-    public ResponseEntity<?> delete(final UserPrincipal userPrincipal){
+
+    public ResponseEntity<?> delete(final UserPrincipal userPrincipal) {
+
         Optional<User> user = userRepository.findById(userPrincipal.getId());
         DefaultAssert.isTrue(user.isPresent(), "유저가 올바르지 않습니다.");
 
@@ -60,7 +64,9 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
-    public ResponseEntity<?> refresh(final RefreshTokenReq tokenRefreshRequest){
+
+    public ResponseEntity<?> refresh(final RefreshTokenReq tokenRefreshRequest) {
+
         //1차 검증
         boolean checkValid = valid(tokenRefreshRequest.getRefreshToken());
         DefaultAssert.isAuthentication(checkValid);
@@ -73,9 +79,9 @@ public class AuthService {
         TokenMapping tokenMapping;
 
         Long expirationTime = customTokenProviderService.getExpiration(tokenRefreshRequest.getRefreshToken());
-        if(expirationTime > 0){
+        if (expirationTime > 0) {
             tokenMapping = customTokenProviderService.refreshToken(authentication, token.get().getRefreshToken());
-        }else{
+        } else {
             tokenMapping = customTokenProviderService.createToken(authentication);
         }
 
@@ -87,7 +93,9 @@ public class AuthService {
         return ResponseEntity.ok(authResponse);
     }
 
-    public ResponseEntity<?> signOut(final RefreshTokenReq tokenRefreshRequest){
+
+    public ResponseEntity<?> signOut(final RefreshTokenReq tokenRefreshRequest) {
+
         boolean checkValid = valid(tokenRefreshRequest.getRefreshToken());
         DefaultAssert.isAuthentication(checkValid);
 
@@ -99,7 +107,9 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
-    private boolean valid(final String refreshToken){
+
+    private boolean valid(final String refreshToken) {
+
 
         //1. 토큰 형식 물리적 검증
         boolean validateCheck = customTokenProviderService.validateToken(refreshToken);

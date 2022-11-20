@@ -1,13 +1,17 @@
 package com.y2sg.wtm.domain.pet.domain;
 
 import com.y2sg.wtm.domain.common.BaseEntity;
+
+import com.y2sg.wtm.domain.user.domain.User;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
+
 
 @Entity
 @Getter
@@ -18,22 +22,29 @@ public class Pet extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+
     private String imageUrl;
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
 
+
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private int experience = 0;
 
     @Builder
-    public Pet(String name, String imageUrl, Type type, int experience) {
+    public Pet(String name, String imageUrl, User user, Type type, int experience) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.type = type;
+        this.user = user;
         this.experience = experience;
     }
 
