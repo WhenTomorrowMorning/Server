@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CustomOncePerRequestFilter extends OncePerRequestFilter{
+public class CustomOncePerRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private CustomTokenProviderService customTokenProviderService;
@@ -28,13 +28,14 @@ public class CustomOncePerRequestFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
 
-        if (StringUtils.hasText(jwt) && customTokenProviderService.validateToken(jwt)) {
-            UsernamePasswordAuthenticationToken authentication = customTokenProviderService.getAuthenticationById(jwt);
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+            if (StringUtils.hasText(jwt) && customTokenProviderService.validateToken(jwt)) {
+                UsernamePasswordAuthenticationToken authentication = customTokenProviderService.getAuthenticationById(jwt);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
@@ -45,5 +46,5 @@ public class CustomOncePerRequestFilter extends OncePerRequestFilter{
         }
         return null;
     }
-    
+
 }

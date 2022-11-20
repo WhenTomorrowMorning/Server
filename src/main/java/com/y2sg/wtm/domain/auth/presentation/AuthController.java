@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import com.y2sg.wtm.domain.auth.dto.AuthRes;
 import com.y2sg.wtm.domain.auth.dto.RefreshTokenReq;
+import com.y2sg.wtm.global.DefaultAssert;
 import com.y2sg.wtm.global.payload.ErrorResponse;
 import com.y2sg.wtm.global.config.security.token.CurrentUser;
 import com.y2sg.wtm.global.config.security.token.UserPrincipal;
@@ -47,6 +48,7 @@ public class AuthController {
     public ResponseEntity<?> whoAmI(
         @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser final UserPrincipal userPrincipal
     ) {
+        DefaultAssert.isAuthentication(userPrincipal);
         return authService.whoAmI(userPrincipal);
     }
 
