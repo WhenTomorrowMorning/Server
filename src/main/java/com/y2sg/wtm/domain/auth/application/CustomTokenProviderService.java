@@ -7,6 +7,10 @@ import com.y2sg.wtm.global.config.security.OAuth2Config;
 import com.y2sg.wtm.global.config.security.token.UserPrincipal;
 import com.y2sg.wtm.domain.auth.dto.TokenMapping;
 
+import com.y2sg.wtm.global.error.DefaultAuthenticationException;
+import com.y2sg.wtm.global.error.DefaultException;
+import com.y2sg.wtm.global.payload.ErrorCode;
+import io.jsonwebtoken.security.SecurityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,7 +47,7 @@ public class CustomTokenProviderService {
                                 .setSubject(Long.toString(userPrincipal.getId()))
                                 .setIssuedAt(new Date())
                                 .setExpiration(accessTokenExpiresIn)
-                                .signWith(key, SignatureAlgorithm.HS256)
+                                .signWith(key, SignatureAlgorithm.HS512)
                                 .compact();
 
         return TokenMapping.builder()
@@ -70,12 +74,12 @@ public class CustomTokenProviderService {
                                 .setSubject(Long.toString(userPrincipal.getId()))
                                 .setIssuedAt(new Date())
                                 .setExpiration(accessTokenExpiresIn)
-                                .signWith(key, SignatureAlgorithm.HS256)
+                                .signWith(key, SignatureAlgorithm.HS512)
                                 .compact();
 
         String refreshToken = Jwts.builder()
                                 .setExpiration(refreshTokenExpiresIn)
-                                .signWith(key, SignatureAlgorithm.HS256)
+                                .signWith(key, SignatureAlgorithm.HS512)
                                 .compact();
 
         return TokenMapping.builder()
@@ -122,9 +126,7 @@ public class CustomTokenProviderService {
             //log.info("bearerToken = {} \n oAuth2Config.getAuth()={}", token, oAuth2Config.getAuth().getTokenSecret());
             Jwts.parserBuilder().setSigningKey(oAuth2Config.getAuth().getTokenSecret()).build().parseClaimsJws(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException ex) {
-            log.error("잘못된 JWT 서명입니다.");
-        } catch (MalformedJwtException ex) {
+        } catch (SecurityException | MalformedJwtException ex) {
             log.error("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException ex) {
             log.error("만료된 JWT 토큰입니다.");

@@ -65,4 +65,10 @@ public class DefaultAssert extends Assert{
             throw new DefaultAuthenticationException(ErrorCode.INVALID_AUTHENTICATION);
         }
     }
+
+    public static void isAuthentication(Object value){
+        if(value == null){
+            throw new DefaultException(ErrorCode.INVALID_JWT);
+        }
+    }
 }
